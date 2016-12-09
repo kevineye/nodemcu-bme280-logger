@@ -1,6 +1,8 @@
-# NodeMCU MQTT Base
+# NodeMCU MQTT Temperature Sensor/Logger
 
-Base project for MQTT-controlled NodeMCU IoT device.
+Logs temperature from BME280 sensor to MQTT every minute. Uses a rolling average algorithm to smooth sensor inputs.
+
+# Install
 
 Overall NodeMCU docs:
 
@@ -90,9 +92,10 @@ The device will subscribe and publish with a configurable root path, called "/es
 
 | Topic                   | Pub/Sub   | Payload   | Description |
 |-------------------------|-----------|-----------|-------------|
-| `/esp/ping`             | subscribe | *any*     | Triggers publishing status message. |
-| `/esp/status`           | publish   | *JSON*    | Status info is published at connect and retained. Contains IP address and other info. Marked offline when device is not connected. Retained. |
-| `/esp/config`           | subscribe | key=value | Persistently sets a configuration value in config.json. |
-| `/esp/config`           | subscribe | ping      | Triggers publishing config JSON dump. |
-| `/esp/config`           | subscribe | restart   | Restarts the device. |
-| `/esp/config/json`      | publish   | *JSON*    | Configuration values (initially from config.json) are dumped in response to config ping. |
+| `esp/sensors`          | publish   | *JSON*    | Sensor info is published at connect and every minute. Contains "temperature" (in °F) and "zone" from config. |
+| `esp/ping`             | subscribe | *any*     | Triggers publishing status message. |
+| `esp/status`           | publish   | *JSON*    | Status info is published at connect and retained. Contains IP address and other info. Marked offline when device is not connected. Retained. |
+| `esp/config`           | subscribe | key=value | Persistently sets a configuration value in config.json. |
+| `esp/config`           | subscribe | ping      | Triggers publishing config JSON dump. |
+| `esp/config`           | subscribe | restart   | Restarts the device. |
+| `esp/config/json`      | publish   | *JSON*    | Configuration values (initially from config.json) are dumped in response to config ping. |
